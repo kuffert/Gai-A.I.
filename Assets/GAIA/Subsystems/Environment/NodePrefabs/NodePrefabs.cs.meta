@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 2c536a83268e12440a881e1a14dd9857
+timeCreated: 1517108201
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inceptorNodePrefab: {fileID: 1731623186464240, guid: 78c55d2a293b0d043b27a60f8f40283e,
+      type: 2}
+  - boundaryNodePrefab: {fileID: 1415002870299150, guid: 7bc0aaec5ad7c344bb48539537443286,
+      type: 2}
+  - standardNodePrefab: {fileID: 1148397657374032, guid: d829f1a1e5db6094b83dcae25721d7e1,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
