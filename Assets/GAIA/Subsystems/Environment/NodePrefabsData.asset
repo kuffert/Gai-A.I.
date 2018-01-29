@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c536a83268e12440a881e1a14dd9857, type: 3}
+  m_Name: NodePrefabsData
+  m_EditorClassIdentifier: 
+  inceptorNodePrefab: {fileID: 1731623186464240, guid: 78c55d2a293b0d043b27a60f8f40283e,
+    type: 2}
+  boundaryNodePrefab: {fileID: 1415002870299150, guid: 7bc0aaec5ad7c344bb48539537443286,
+    type: 2}
+  standardNodePrefab: {fileID: 1148397657374032, guid: d829f1a1e5db6094b83dcae25721d7e1,
+    type: 2}
+  validatedNodePrefab: {fileID: 1086438075722432, guid: 615faf54f1a9c154abba707199f2733c,
+    type: 2}
+  dullNodePrefabV1: {fileID: 1891479911357184, guid: 7e9234ade0866974794f89f4612e88f7,
+    type: 2}
+  dullNodePrefabV2: {fileID: 1711832471965466, guid: 47e58191145beac49961ef3d89ac358c,
+    type: 2}

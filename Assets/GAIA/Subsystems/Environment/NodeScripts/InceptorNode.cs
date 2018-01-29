@@ -4,43 +4,68 @@ using UnityEngine;
 
 public class InceptorNode : Node
 {
-    GameObject inceptorNodePrefab = nodePrefabs.inceptorNodePrefab;
-    public InceptorNode(int initialLifeResistance, int initialLifeThreshold)
+    void Awake()
     {
-        incrementTotalNodes();
-        this.lifeResistance = initialLifeResistance;
-        this.lifeThreshhold = initialLifeThreshold;
+        calculateNodeOrderMapping();
     }
 
-    // Use this for initialization
     void Start()
     {
-        Debug.Log(inceptorNodePrefab);
+        GameObject inceptorNodePrefab = nodePrefabsData.inceptorNodePrefab;
         nodeRender = Instantiate(inceptorNodePrefab, transform.position, transform.rotation);
+        nodeRender.transform.parent = gameObject.transform;
+        generateNodeColliderAndSetCollisionLayer();
         generateNeighbors();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        switch (GAIASimulationManager.getSimState())
+        {
+            case GAIASimulationManager.SimState.EnvGen:
+                findNeighbors();
+                break;
+        }
     }
 
-    override protected Node generateStandardNode(int prevNodeLifeRes, int prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition)
+    public static GameObject generateInceptorNode(float initialLifeRes, float initialLifeThreshold, int maxFractals, bool validationMode, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
-        throw new UnityException("Standard node generator unsupported by Inceptor Node");
-    }
-    override protected Node generateBoundaryNode(Vector3 transformPosition)
-    {
-        throw new UnityException("Standard node generator unsupported by Inceptor Node");
+        GameObject newInceptorNodeObj = new GameObject("Inceptor Node");
+        newInceptorNodeObj.transform.position = transformPosition;
+
+        InceptorNode inceptorNodeScript = newInceptorNodeObj.AddComponent<InceptorNode>();
+        inceptorNodeScript.incrementTotalNodes();
+        inceptorNodeScript.lifeResistance = initialLifeRes;
+        inceptorNodeScript.lifeThreshhold = initialLifeThreshold;
+        inceptorNodeScript.nodePrefabsData = nodePrefabsData;
+        inceptorNodeScript.setMaxFractals(maxFractals);
+        inceptorNodeScript.setValidationMode(validationMode);
+
+        ALLNODEOBJECTS.Add(newInceptorNodeObj);
+        return newInceptorNodeObj;
     }
 
     override protected void generateNeighbors()
     {
-        NorthNode = generateStandardNode(lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(3, 0, 0));
-        EastNode = generateStandardNode(lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, 3));
-        SouthNode = generateStandardNode(lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-3, 0, 0));
-        WestNode = generateStandardNode(lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, -3));
- 
+        NorthNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData);
+        EastNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData);
+        SouthNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData);
+        WestNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData);
+    }
+
+    private void calculateNodeOrderMapping()
+    {
+        List<int[]> pairs = new List<int[]> { new int[] { 1, 1 }, new int[] { 6, 2 }, new int[] { 11, 3 }, new int[] { 16, 4 } };
+        int[] nVal = pairs[Random.Range(0, pairs.Count)];
+        pairs.Remove(nVal);
+        int[] eVal = pairs[Random.Range(0, pairs.Count)];
+        pairs.Remove(eVal);
+        int[] sVal = pairs[Random.Range(0, pairs.Count)];
+        pairs.Remove(sVal);
+        int[] wVal = pairs[Random.Range(0, pairs.Count)];
+        nodeOrderMapping.Add(NodeDirection.North, nVal);
+        nodeOrderMapping.Add(NodeDirection.East, eVal);
+        nodeOrderMapping.Add(NodeDirection.South, sVal);
+        nodeOrderMapping.Add(NodeDirection.West, wVal);
     }
 }

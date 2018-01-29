@@ -2,40 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryNode : Node {
-
-	GameObject boundaryNodePrefab = nodePrefabs.boundaryNodePrefab;
-
-	private BoundaryNode(Vector3 transformPostion)
-	{
-
-		nodeRender = Instantiate(boundaryNodePrefab, transform.position, transform.rotation);
-	}
-
-	// Use this for initialization
-	void Start () 
-	{
-		nodeRender = Instantiate(boundaryNodePrefab, transform.position, transform.rotation);
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
-
-	override protected Node generateStandardNode(int prevNodeLifeRes, int prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition)
+public class BoundaryNode : Node
+{
+    void Start()
     {
-		throw new UnityException("Boundary Nodes cannot generate a Standard Node.");
+        GameObject boundaryNodePrefab = nodePrefabsData.boundaryNodePrefab;
+        nodeRender = Instantiate(boundaryNodePrefab, transform.position, transform.rotation);
+        nodeRender.transform.parent = gameObject.transform;
+        setPrevNodeNeighbor(prevNode, prevNodeDir);
+        generateNodeColliderAndSetCollisionLayer();
+        findNeighbors();
+        incrementTotalNodes();
     }
 
-	override protected Node generateBoundaryNode(Vector3 transformPosition)
+    // Update is called once per frame
+    void Update()
     {
-		return new BoundaryNode(transformPosition);
+        switch (GAIASimulationManager.getSimState())
+        {
+            case GAIASimulationManager.SimState.EnvGen:
+                findNeighbors();
+                break;
+        }
     }
 
-	 override protected void generateNeighbors()
+    // Need to know spawener
+    public static GameObject generateBoundaryNode(GameObject prevNode, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
-		throw new UnityException("Boundary Nodes do not support generation of neighbor Nodes.");
+        GameObject newBoundaryNodeObj = new GameObject("BoundaryNode");
+        newBoundaryNodeObj.transform.position = transformPosition;
+
+        BoundaryNode boundaryNodeScript = newBoundaryNodeObj.AddComponent<BoundaryNode>();
+        boundaryNodeScript.nodePrefabsData = nodePrefabsData;
+        boundaryNodeScript.prevNode = prevNode;
+        boundaryNodeScript.prevNodeDir = prevNodeDir;
+        boundaryNodeScript.lifeResistance = 100f;
+        boundaryNodeScript.lifeThreshhold = 100f;
+
+        ALLNODEOBJECTS.Add(newBoundaryNodeObj);
+        return newBoundaryNodeObj;
+    }
+
+    override protected void generateNeighbors()
+    {
+        throw new UnityException("Boundary Nodes do not support generation of neighbor Nodes.");
     }
 }
