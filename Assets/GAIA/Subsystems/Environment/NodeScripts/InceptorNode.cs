@@ -25,6 +25,9 @@ public class InceptorNode : Node
             case GAIASimulationManager.SimState.EnvGen:
                 findNeighbors();
                 break;
+            case GAIASimulationManager.SimState.GAIAControl:
+                updateCurrentLifeLevel(currentLifeDelta);
+                break;
         }
     }
 
@@ -67,5 +70,7 @@ public class InceptorNode : Node
         nodeOrderMapping.Add(NodeDirection.East, eVal);
         nodeOrderMapping.Add(NodeDirection.South, sVal);
         nodeOrderMapping.Add(NodeDirection.West, wVal);
+        Soliloquy.envLog("Inceptor time mapping: ");
+        Soliloquy.envLog("N:" + nVal[1] + " " + "E:" + eVal[1] + " " + "S:" + sVal[1] + " " + "W:" + wVal[1]);
     }
 }

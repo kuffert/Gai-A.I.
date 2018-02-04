@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2c536a83268e12440a881e1a14dd9857
-timeCreated: 1517108201
+timeCreated: 1517771449
 licenseType: Free
 MonoImporter:
   externalObjects: {}
@@ -11,6 +11,24 @@ MonoImporter:
   - boundaryNodePrefab: {fileID: 1415002870299150, guid: 7bc0aaec5ad7c344bb48539537443286,
       type: 2}
   - standardNodePrefab: {fileID: 1148397657374032, guid: d829f1a1e5db6094b83dcae25721d7e1,
+      type: 2}
+  - validatedNodePrefab: {fileID: 1086438075722432, guid: 615faf54f1a9c154abba707199f2733c,
+      type: 2}
+  - dullNodePrefabV1: {fileID: 1891479911357184, guid: 7e9234ade0866974794f89f4612e88f7,
+      type: 2}
+  - dullNodePrefabV2: {fileID: 1711832471965466, guid: 47e58191145beac49961ef3d89ac358c,
+      type: 2}
+  - deadNodePrefab: {fileID: 1148397657374032, guid: d829f1a1e5db6094b83dcae25721d7e1,
+      type: 2}
+  - stage1NodePrefab: {fileID: 1637571301501768, guid: d1de758ffdc01d54f8f0383d4f228484,
+      type: 2}
+  - stage2NodePrefab: {fileID: 1998177183996980, guid: 21deed0303fa01640bfc5ef125e9ccc1,
+      type: 2}
+  - stage3NodePrefab: {fileID: 1112958284437122, guid: 82ce4264edc9014499752afe3d3ee139,
+      type: 2}
+  - flourishingNodePrfab: {fileID: 1043350906885274, guid: 3ed5cfd70eb0ad6429e711e14c06ed2a,
+      type: 2}
+  - changeLifeLevelEffectPrefab: {fileID: 100000, guid: 12fc78131a3c50d419d4ffc7cf0ab34d,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

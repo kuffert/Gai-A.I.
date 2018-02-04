@@ -19,7 +19,6 @@ public class StandardNode : Node
         generateNodeColliderAndSetCollisionLayer();
         findNeighbors();
         spawnChildrenAtTick += nodeOrderMapping[prevNodeDir][0];
-        Debug.Log(GAIASimulationManager.getSimState());
     }
 
     void Update()
@@ -32,13 +31,17 @@ public class StandardNode : Node
                 findNeighbors();
                 generateNeighbors();
                 break;
+
+            case GAIASimulationManager.SimState.GAIAControl:
+                 updateCurrentLifeLevel(currentLifeDelta);
+                 break;
         }
 
     }
 
     public static GameObject generateStandardNode(GameObject prevNode, float prevNodeLifeRes, float prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
-        if (Random.Range(1, 10) == 1)
+        if (Random.Range(1, 7) == 1)
         {
             return DullNode.generateDullNode(prevNode, prevNodeDir, transformPosition, nodePrefabsData);
         }
@@ -118,12 +121,18 @@ public class StandardNode : Node
 
     private float generatePsuedoRandomLifeRes(float prevLR)
     {
-        return prevLR;
+        float rangeMod = prevLR * 1.0f;
+        float loVal = (prevLR - rangeMod) > 0? prevLR - rangeMod : 0; 
+        float hiVal = (prevLR + rangeMod) < 95? prevLR + rangeMod : 95; 
+        return Random.Range(loVal, hiVal);
     }
 
     private float generatePsuedoRandomLifeThresh(float prevLT)
     {
-        return prevLT;
+        float rangeMod = prevLT * .5f;
+        float loVal = (prevLT - rangeMod) > 15? prevLT - rangeMod : 15; 
+        float hiVal = (prevLT + rangeMod) < 85? prevLT + rangeMod : 85; 
+        return Random.Range(loVal, hiVal);
     }
 
     protected void VALIDATIONCheckIfNodeHas4Neighbors(NodePrefabs prefabsData)
