@@ -59,7 +59,6 @@ public abstract class Node : MonoBehaviour
         FRACTALS++;
     }
 
-
     protected abstract void generateNeighbors();
 
 
@@ -93,7 +92,7 @@ public abstract class Node : MonoBehaviour
 
     protected void generateNodeColliderAndSetCollisionLayer()
     {
-        gameObject.AddComponent<BoxCollider>().size = new Vector3(.75f * NODESIZE, .75f * NODESIZE, .75f * NODESIZE);
+        gameObject.AddComponent<BoxCollider>().size = new Vector3(.75f * NODESIZE, 2f * NODESIZE, .75f * NODESIZE);
         gameObject.layer = LayerMask.NameToLayer("Nodes");
     }
 
@@ -122,22 +121,22 @@ public abstract class Node : MonoBehaviour
         switch (currentLifeState)
         {
             case LifeState.Dead:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage1]+lifeThreshhold ? LifeState.Stage1 : newLifeState;
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
                 break;
             case LifeState.Stage1:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage2]+lifeThreshhold ? LifeState.Stage2 : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage1]+lifeThreshhold ? LifeState.Dead : newLifeState;
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Dead : newLifeState;
                 break;
             case LifeState.Stage2:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage3]+lifeThreshhold ? LifeState.Stage3 : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage2]+lifeThreshhold ? LifeState.Stage1 : newLifeState;
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
                 break;
             case LifeState.Stage3:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Flourishing]+lifeThreshhold ? LifeState.Flourishing : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage3]+lifeThreshhold ? LifeState.Stage2 : newLifeState;
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Flourishing : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
                 break;
             case LifeState.Flourishing:
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Flourishing]+lifeThreshhold ? LifeState.Stage3 : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
                 break;
         }
         if (newLifeState != currentLifeState)
@@ -175,5 +174,14 @@ public abstract class Node : MonoBehaviour
         Destroy(nodeRender);
         nodeRender = Instantiate(newPrefab, transform.position, transform.rotation);
         nodeRender.transform.parent = gameObject.transform;
+    }
+
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log(gameObject);
+            Debug.Log(currentLifeLevel);
+        }
     }
 }

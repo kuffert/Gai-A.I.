@@ -46,7 +46,7 @@ namespace RTS_Cam
         public LayerMask groundMask = -1; //layermask of ground or other objects that affect height
 
         public float maxHeight = 10f; //maximal height
-        public float minHeight = 15f; //minimnal height
+        public float minHeight = 25f; //minimnal height
         public float heightDampening = 5f; 
         public float keyboardZoomingSensitivity = 2f;
         public float scrollWheelZoomingSensitivity = 25f;

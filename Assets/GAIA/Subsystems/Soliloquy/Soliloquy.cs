@@ -25,4 +25,12 @@ public class Soliloquy : ScriptableObject {
 	{
 		
 	}
+
+	public static void overrideLog(string msg)
+	{
+		using (System.IO.StreamWriter logFile = new System.IO.StreamWriter(@"F:\Unity Projects\GAIA Logs\OverrideLog.txt", append:true))
+		{
+			logFile.WriteLine(GAIASimulationManager.iterationStamp + ": " + msg + "\n");
+		}
+	}
 }

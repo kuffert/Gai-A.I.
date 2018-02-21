@@ -19,6 +19,7 @@ public class StandardNode : Node
         generateNodeColliderAndSetCollisionLayer();
         findNeighbors();
         spawnChildrenAtTick += nodeOrderMapping[prevNodeDir][0];
+        nodeRender.layer = 8;
     }
 
     void Update()
@@ -35,6 +36,9 @@ public class StandardNode : Node
             case GAIASimulationManager.SimState.GAIAControl:
                  updateCurrentLifeLevel(currentLifeDelta);
                  break;
+
+            case GAIASimulationManager.SimState.Override:
+                break;
         }
 
     }
