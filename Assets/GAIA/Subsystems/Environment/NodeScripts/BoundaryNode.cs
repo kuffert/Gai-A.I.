@@ -31,7 +31,7 @@ public class BoundaryNode : Node
     }
 
     // Need to know spawener
-    public static GameObject generateBoundaryNode(GameObject prevNode, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
+    public static GameObject generateBoundaryNode(Node prevNode, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
         GameObject newBoundaryNodeObj = new GameObject("BoundaryNode");
         newBoundaryNodeObj.transform.position = transformPosition;

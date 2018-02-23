@@ -32,7 +32,7 @@ public class DullNode : Node
     }
 
     // Need to know spawener
-    public static GameObject generateDullNode(GameObject prevNode, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
+    public static GameObject generateDullNode(Node prevNode, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
         GameObject newDullNodeObject = new GameObject("BoundaryNode");
         newDullNodeObject.transform.position = transformPosition;

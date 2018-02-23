@@ -50,7 +50,7 @@ public class StandardNode : Node
 
     #region ENVGEN
 
-    public static GameObject generateStandardNode(GameObject prevNode, float prevNodeLifeRes, float prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
+    public static GameObject generateStandardNode(Node prevNode, float prevNodeLifeRes, float prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
         if (Random.Range(1, 100) / 100f <= DULLNODECHANCE)
         {
@@ -84,10 +84,10 @@ public class StandardNode : Node
             }
             else
             {
-                NorthNode = NorthNode ? NorthNode : BoundaryNode.generateBoundaryNode(gameObject, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData);
-                EastNode = EastNode ? EastNode : BoundaryNode.generateBoundaryNode(gameObject, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData);
-                SouthNode = SouthNode ? SouthNode : BoundaryNode.generateBoundaryNode(gameObject, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData);
-                WestNode = WestNode ? WestNode : BoundaryNode.generateBoundaryNode(gameObject, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData);
+                NorthNode = NorthNode ? NorthNode : BoundaryNode.generateBoundaryNode(this, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
+                EastNode = EastNode ? EastNode : BoundaryNode.generateBoundaryNode(this, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData).GetComponent<Node>();
+                SouthNode = SouthNode ? SouthNode : BoundaryNode.generateBoundaryNode(this, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
+                WestNode = WestNode ? WestNode : BoundaryNode.generateBoundaryNode(this, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData).GetComponent<Node>();
                 Debug.Log(VALIDATEdoublingUpNodes());
                 generatingChildren = false;
             }
@@ -103,25 +103,25 @@ public class StandardNode : Node
             if (tick == nVal)
             {
                 Debug.Log("Creating node to the north");
-                NorthNode = NorthNode ? NorthNode : StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData);
+                NorthNode = NorthNode ? NorthNode : StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
                 neighborsGenerated++;
             }
             if (tick == eVal)
             {
                 Debug.Log("Creating node to the east");
-                EastNode = EastNode ? EastNode : StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData);
+                EastNode = EastNode ? EastNode : StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData).GetComponent<Node>();
                 neighborsGenerated++;
             }
             if (tick == sVal)
             {
                 Debug.Log("Creating node to the south");
-                SouthNode = SouthNode ? SouthNode : StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData);
+                SouthNode = SouthNode ? SouthNode : StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
                 neighborsGenerated++;
             }
             if (tick == wVal)
             {
                 Debug.Log("Creating node to the west");
-                WestNode = WestNode ? WestNode : StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData);
+                WestNode = WestNode ? WestNode : StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData).GetComponent<Node>();
                 neighborsGenerated++;
             }
             if (neighborsGenerated >= 4)
@@ -133,7 +133,7 @@ public class StandardNode : Node
 
     override public void generateWater(int tickInterval, int fractalID)
     {
-        WaterNode.generateWaterNode(prevNode, prevNodeDir, NorthNode, EastNode, SouthNode, WestNode, fractalID, gameObject.transform.position, nodePrefabsData);
+        WaterNode.generateWaterNode(prevNode, prevNodeDir, fractalID, gameObject.transform.position, nodePrefabsData);
         Destroy(gameObject);
     }
 
@@ -170,9 +170,9 @@ public class StandardNode : Node
 
     override protected void disperseLifeToNeighbors()
     {
-        if (lifeDispersalInterval%tick == 0)
+        if (lifeDispersalInterval % tick == 0)
         {
-            
+
         }
     }
 

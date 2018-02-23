@@ -15,12 +15,12 @@ public abstract class Node : MonoBehaviour
     public float currentLifeLevel;
     public LifeState currentLifeState = LifeState.Dead;
 
-    protected GameObject NorthNode = null;
-    protected GameObject EastNode = null;
-    protected GameObject SouthNode = null;
-    protected GameObject WestNode = null;
+    protected Node NorthNode = null;
+    protected Node EastNode = null;
+    protected Node SouthNode = null;
+    protected Node WestNode = null;
     protected GameObject nodeRender;
-    protected GameObject prevNode = null;
+    protected Node prevNode = null;
     protected NodeDirection prevNodeDir = NodeDirection.None;
     protected float currentLifeDelta = .05f;
     protected static Dictionary<NodeDirection, int[]> nodeOrderMapping = new Dictionary<NodeDirection, int[]>();
@@ -121,7 +121,7 @@ public abstract class Node : MonoBehaviour
         }
     }
 
-    protected void setPrevNodeNeighbor(GameObject prevNode, NodeDirection prevNodeDir)
+    protected void setPrevNodeNeighbor(Node prevNode, NodeDirection prevNodeDir)
     {
         switch (prevNodeDir)
         {
@@ -143,10 +143,10 @@ public abstract class Node : MonoBehaviour
     {
         int nodeLayerMask = 1 << 8;
         RaycastHit hit;
-        NorthNode = NorthNode ? NorthNode : (Physics.Raycast(transform.position, Vector3.right, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject : null;
-        EastNode = EastNode ? EastNode : (Physics.Raycast(transform.position, -Vector3.forward, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject : null;
-        SouthNode = SouthNode ? SouthNode : (Physics.Raycast(transform.position, -Vector3.right, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject : null;
-        WestNode = WestNode ? WestNode : (Physics.Raycast(transform.position, Vector3.forward, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject : null;
+        NorthNode = NorthNode ? NorthNode : (Physics.Raycast(transform.position, Vector3.right, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject.GetComponent<Node>() : null;
+        EastNode = EastNode ? EastNode : (Physics.Raycast(transform.position, -Vector3.forward, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject.GetComponent<Node>() : null;
+        SouthNode = SouthNode ? SouthNode : (Physics.Raycast(transform.position, -Vector3.right, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject.GetComponent<Node>() : null;
+        WestNode = WestNode ? WestNode : (Physics.Raycast(transform.position, Vector3.forward, out hit, NODESIZE, nodeLayerMask)) ? hit.collider.gameObject.GetComponent<Node>() : null;
     }
 
     protected void generateNodeColliderAndSetCollisionLayer()

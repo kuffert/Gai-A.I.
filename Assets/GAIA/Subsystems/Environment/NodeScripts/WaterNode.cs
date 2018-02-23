@@ -38,12 +38,8 @@ public class WaterNode : Node
     }
 
     public static GameObject generateWaterNode(
-        GameObject prevNode,
+        Node prevNode,
         NodeDirection prevNodeDir,
-        GameObject northNode,
-        GameObject eastNode,
-        GameObject westNode,
-        GameObject southNode,
         int fractalID,
         Vector3 transformPosition,
         NodePrefabs nodePrefabsData)
@@ -55,10 +51,6 @@ public class WaterNode : Node
         waterNodeScript.nodePrefabsData = nodePrefabsData;
         waterNodeScript.prevNode = prevNode;
         waterNodeScript.prevNodeDir = prevNodeDir;
-        waterNodeScript.NorthNode = northNode;
-        waterNodeScript.EastNode = eastNode;
-        waterNodeScript.SouthNode = southNode;
-        waterNodeScript.WestNode = westNode;
         waterNodeScript.fractalID = fractalID;
 
         ALLNODEOBJECTS.Add(newWaterNodeObj);
@@ -91,38 +83,22 @@ public class WaterNode : Node
 
             if (tick == nVal)
             {
-                Node northScript = NorthNode.GetComponent<StandardNode>();
-                if (northScript && calculateConversionOdds())
-                {
-                    northScript.generateWater(nodeOrderMapping[NodeDirection.North][1], fractalID + 1);
-                }
+                NorthNode.generateWater(nodeOrderMapping[NodeDirection.North][1], fractalID + 1);
                 neighborsConverted++;
             }
             if (tick == eVal)
             {
-                Node eastScript = EastNode.GetComponent<StandardNode>();
-                if (eastScript && calculateConversionOdds())
-                {
-                    eastScript.generateWater(nodeOrderMapping[NodeDirection.East][1], fractalID + 1);
-                }
+                EastNode.generateWater(nodeOrderMapping[NodeDirection.East][1], fractalID + 1);
                 neighborsConverted++;
             }
             if (tick == sVal)
             {
-                Node southScript = SouthNode.GetComponent<StandardNode>();
-                if (southScript && calculateConversionOdds())
-                {
-                    southScript.generateWater(nodeOrderMapping[NodeDirection.South][1], fractalID + 1);
-                }
+                SouthNode.generateWater(nodeOrderMapping[NodeDirection.South][1], fractalID + 1);
                 neighborsConverted++;
             }
             if (tick == wVal)
             {
-                Node westScript = WestNode.GetComponent<StandardNode>();
-                if (westScript && calculateConversionOdds())
-                {
-                    westScript.generateWater(nodeOrderMapping[NodeDirection.West][1], fractalID + 1);
-                }
+                WestNode.generateWater(nodeOrderMapping[NodeDirection.West][1], fractalID + 1);
                 neighborsConverted++;
             }
             if (neighborsConverted >= 4)
@@ -144,7 +120,7 @@ public class WaterNode : Node
 
     override protected void disperseLifeToNeighbors()
     {
-        
+
     }
 
     private bool calculateConversionOdds()

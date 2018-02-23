@@ -83,10 +83,10 @@ public class InceptorNode : Node
 
     override protected void generateNeighbors()
     {
-        NorthNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData);
-        EastNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData);
-        SouthNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData);
-        WestNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData);
+        NorthNode = StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.South, transform.position + new Vector3(NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
+        EastNode = StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData).GetComponent<Node>();
+        SouthNode = StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData).GetComponent<Node>();
+        WestNode = StandardNode.generateStandardNode(this, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData).GetComponent<Node>();
     }
 
     override public void generateWater(int tickInterval, int fractalID)
