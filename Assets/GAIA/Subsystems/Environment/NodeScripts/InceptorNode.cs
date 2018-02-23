@@ -39,6 +39,7 @@ public class InceptorNode : Node
     public static GameObject generateInceptorNode(
         float initialLifeRes,
         float initialLifeThreshold,
+        int lifeDispersalInterval,
         int maxFractals,
         float dullNodeChance,
         int maxWaterGenerations,
@@ -56,6 +57,7 @@ public class InceptorNode : Node
         inceptorNodeScript.incrementTotalNodes();
         inceptorNodeScript.lifeResistance = initialLifeRes;
         inceptorNodeScript.lifeThreshhold = initialLifeThreshold;
+        inceptorNodeScript.lifeDispersalInterval = lifeDispersalInterval;
         inceptorNodeScript.nodePrefabsData = nodePrefabsData;
         inceptorNodeScript.setMaxFractals(maxFractals);
         inceptorNodeScript.setDullNodeChance(dullNodeChance);
@@ -90,6 +92,11 @@ public class InceptorNode : Node
     override public void generateWater(int tickInterval, int fractalID)
     {
 
+    }
+
+    override protected void disperseLifeToNeighbors()
+    {
+        
     }
 
     private void calculateNodeOrderMapping()

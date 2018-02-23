@@ -1800,15 +1800,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c858432af35734fb03ed9052a63b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodePrefabsData: {fileID: 11400000, guid: 9223a973349c2344589bde9dae8199f1, type: 2}
-  initialLifeRes: 10
-  intitialLifeThresh: 30
+  dullNodeChance: 0.1
   maxFractals: 500
   maxWaterGenerations: 2
   maxIndividualWaterFractals: 12
-  dullNodeChance: 0.1
   waterFractalChance: 1
-  waterFractalChanceDecayRate: 0.025
+  waterFractalChanceDecayRate: 0.1
+  nodePrefabsData: {fileID: 11400000, guid: 9223a973349c2344589bde9dae8199f1, type: 2}
+  initialLifeRes: 10
+  intitialLifeThresh: 30
+  lifeDispersalInterval: 50
   validationMode: 1
 --- !u!4 &1951675896
 Transform:

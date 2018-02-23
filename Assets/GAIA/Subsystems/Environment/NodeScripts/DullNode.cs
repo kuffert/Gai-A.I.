@@ -58,4 +58,9 @@ public class DullNode : Node
     {
 
     }
+
+    override protected void disperseLifeToNeighbors()
+    {
+        
+    }
 }

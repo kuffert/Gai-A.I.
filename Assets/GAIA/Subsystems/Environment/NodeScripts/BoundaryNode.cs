@@ -57,4 +57,9 @@ public class BoundaryNode : Node
     {
 
     }
+
+    override protected void disperseLifeToNeighbors()
+    {
+        
+    }
 }

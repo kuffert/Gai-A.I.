@@ -11,6 +11,7 @@ public abstract class Node : MonoBehaviour
     public NodePrefabs nodePrefabsData;
     public float lifeResistance;
     public float lifeThreshhold;
+    public float lifeDispersalInterval;
     public float currentLifeLevel;
     public LifeState currentLifeState = LifeState.Dead;
 
@@ -44,6 +45,10 @@ public abstract class Node : MonoBehaviour
 
     private static bool VALIDATED = false;
     private int maxLifeLevel;
+
+
+
+#region ENVGEN
 
     public static bool nodeGenerationCompleted()
     {
@@ -107,6 +112,15 @@ public abstract class Node : MonoBehaviour
     protected abstract void generateNeighbors();
     public abstract void generateWater(int tickInterval, int fractalID);
 
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log(gameObject);
+            Debug.Log(currentLifeLevel);
+        }
+    }
+
     protected void setPrevNodeNeighbor(GameObject prevNode, NodeDirection prevNodeDir)
     {
         switch (prevNodeDir)
@@ -157,6 +171,12 @@ public abstract class Node : MonoBehaviour
         }
         return totalDupes;
     }
+
+    #endregion
+
+#region SIMULATION
+
+    protected abstract void disperseLifeToNeighbors();
 
     protected void updateCurrentLifeLevel(float change)
     {
@@ -221,13 +241,8 @@ public abstract class Node : MonoBehaviour
         nodeRender.transform.parent = gameObject.transform;
     }
 
-    public void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log(gameObject);
-            Debug.Log(currentLifeLevel);
-        }
-    }
 
+
+
+#endregion
 }

@@ -7,17 +7,25 @@ public class GAIASimulationManager : MonoBehaviour
 
     public enum SimState { Standby, EnvGen, WaterGen, GAIAControl, Override, PostSim, End }
 
+    [Header("Environment Modifiers")]
+    public float dullNodeChance;
+    public int maxFractals;
+
+    [Header("Water Modifiers")]
+    public int maxWaterGenerations;
+    public int maxIndividualWaterFractals;
+    public float waterFractalChance;
+    public float waterFractalChanceDecayRate;
+
+    [Header("Life Modifiers")]
     public NodePrefabs nodePrefabsData;
     public int initialLifeRes;
     public int intitialLifeThresh;
-    public int maxFractals;
+    public int lifeDispersalInterval;
 
-    public int maxWaterGenerations;
-    public int maxIndividualWaterFractals;
-    public float dullNodeChance;
-    public float waterFractalChance;
-    public float waterFractalChanceDecayRate;
+    [Header("Modes")]
     public bool validationMode;
+
     public static System.DateTime iterationStamp;
 
     private GameObject inceptorNode;
@@ -124,6 +132,7 @@ public class GAIASimulationManager : MonoBehaviour
                 inceptorNode = InceptorNode.generateInceptorNode(
                     initialLifeRes,
                     intitialLifeThresh,
+                    lifeDispersalInterval,
                      maxFractals,
                      dullNodeChance,
                      maxWaterGenerations,

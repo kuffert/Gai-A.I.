@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StandardNode : Node
 {
+
     private int tick;
     private int spawnChildrenAtTick = 0;
     private bool spawnedChildren = false;
@@ -38,7 +39,7 @@ public class StandardNode : Node
                 break;
 
             case GAIASimulationManager.SimState.GAIAControl:
-                updateCurrentLifeLevel(currentLifeDelta);
+                disperseLifeToNeighbors();
                 break;
 
             case GAIASimulationManager.SimState.Override:
@@ -46,6 +47,8 @@ public class StandardNode : Node
         }
 
     }
+
+    #region ENVGEN
 
     public static GameObject generateStandardNode(GameObject prevNode, float prevNodeLifeRes, float prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
@@ -134,6 +137,17 @@ public class StandardNode : Node
         Destroy(gameObject);
     }
 
+
+    protected void VALIDATIONCheckIfNodeHas4Neighbors(NodePrefabs prefabsData)
+    {
+        if (VALIDATIONMODE && tick % 30 == 0 && NorthNode && SouthNode && WestNode && EastNode)
+        {
+            Destroy(nodeRender);
+            nodeRender = Instantiate(prefabsData.validatedNodePrefab, transform.position, transform.rotation);
+            nodeRender.transform.parent = gameObject.transform;
+        }
+    }
+
     private float generatePsuedoRandomLifeRes(float prevLR)
     {
         float rangeMod = prevLR * 1.0f;
@@ -150,14 +164,18 @@ public class StandardNode : Node
         return Random.Range(loVal, hiVal);
     }
 
-    protected void VALIDATIONCheckIfNodeHas4Neighbors(NodePrefabs prefabsData)
+    #endregion
+
+    #region SIMULATION
+
+    override protected void disperseLifeToNeighbors()
     {
-        if (VALIDATIONMODE && tick % 30 == 0 && NorthNode && SouthNode && WestNode && EastNode)
+        if (lifeDispersalInterval%tick == 0)
         {
-            Destroy(nodeRender);
-            nodeRender = Instantiate(prefabsData.validatedNodePrefab, transform.position, transform.rotation);
-            nodeRender.transform.parent = gameObject.transform;
+            
         }
     }
 
+
+    #endregion
 }

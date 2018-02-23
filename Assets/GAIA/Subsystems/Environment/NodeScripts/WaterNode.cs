@@ -142,6 +142,11 @@ public class WaterNode : Node
 
     }
 
+    override protected void disperseLifeToNeighbors()
+    {
+        
+    }
+
     private bool calculateConversionOdds()
     {
         return Random.Range(1, 100) / 100f <= WATERFRACTALCHANCE - fractalID * WATERFRACTALCHANCEDECAYRATE;
