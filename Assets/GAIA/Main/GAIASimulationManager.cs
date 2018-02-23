@@ -133,14 +133,15 @@ public class GAIASimulationManager : MonoBehaviour
                     initialLifeRes,
                     intitialLifeThresh,
                     lifeDispersalInterval,
-                     maxFractals,
-                     dullNodeChance,
-                     maxWaterGenerations,
-                     maxIndividualWaterFractals,
-                     waterFractalChance,
-                     waterFractalChanceDecayRate,
-                     validationMode,
-                     new Vector3(0, 0, 0), nodePrefabsData);
+                    maxFractals,
+                    dullNodeChance,
+                    maxWaterGenerations,
+                    maxIndividualWaterFractals,
+                    waterFractalChance,
+                    waterFractalChanceDecayRate,
+                    validationMode,
+                    new Vector3(0, 0, 0),
+                    nodePrefabsData);
                 Soliloquy.envLog("Beginning Environment Generation...");
                 Observer.updateLoadingBarActive(true, "Generating Environment", new Color(64f / 255f, 255f / 255f, 57f / 255f));
                 break;

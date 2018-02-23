@@ -34,6 +34,11 @@ public class WaterNode : Node
                 findNeighbors();
                 convertNeighbors();
                 break;
+
+            case GAIASimulationManager.SimState.GAIAControl:
+                tick++;
+                disperseLifeToNeighbors();
+                break;
         }
     }
 
@@ -52,6 +57,9 @@ public class WaterNode : Node
         waterNodeScript.prevNode = prevNode;
         waterNodeScript.prevNodeDir = prevNodeDir;
         waterNodeScript.fractalID = fractalID;
+        waterNodeScript.lifeResistance = 0;
+        waterNodeScript.lifeThreshhold = 0;
+        waterNodeScript.currentLifeLevel = 100;
 
         ALLNODEOBJECTS.Add(newWaterNodeObj);
         ALLNODESCRIPTS.Add(waterNodeScript);
@@ -113,15 +121,22 @@ public class WaterNode : Node
         throw new System.NotImplementedException();
     }
 
-    override public void generateWater(int tickInterval, int fractalID)
-    {
-
-    }
-
     override protected void disperseLifeToNeighbors()
     {
-
+        float dispersalAmout = (currentLifeDelta * currentLifeLevel);
+        if (tick % LIFEDISPERSALINTERVAL == 0)
+        {
+            NorthNode.gainLife(dispersalAmout);
+            EastNode.gainLife(dispersalAmout);
+            SouthNode.gainLife(dispersalAmout);
+            WestNode.gainLife(dispersalAmout);
+        }
     }
+
+    override public void generateWater(int tickInterval, int fractalID) { }
+    override protected void updateCurrentLifeLevel(float change) { }
+    override protected void updateCurrentLifeState(LifeState newLifeState) { }
+
 
     private bool calculateConversionOdds()
     {

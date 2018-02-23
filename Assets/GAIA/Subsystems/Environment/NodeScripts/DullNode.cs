@@ -45,7 +45,7 @@ public class DullNode : Node
         dullNodeScript.lifeThreshhold = 100f;
 
         ALLNODEOBJECTS.Add(newDullNodeObject);
-         ALLNODESCRIPTS.Add(dullNodeScript);
+        ALLNODESCRIPTS.Add(dullNodeScript);
         return newDullNodeObject;
     }
 
@@ -54,13 +54,9 @@ public class DullNode : Node
         throw new UnityException("Boundary Nodes do not support generation of neighbor Nodes.");
     }
 
-    override public void generateWater(int tickInterval, int fractalID)
-    {
-
-    }
-
-    override protected void disperseLifeToNeighbors()
-    {
-        
-    }
+    override public void generateWater(int tickInterval, int fractalID) { }
+    override protected void disperseLifeToNeighbors() { }
+    override protected void updateCurrentLifeLevel(float change) { }
+    override protected void updateCurrentLifeState(LifeState newLifeState) { }
+    
 }

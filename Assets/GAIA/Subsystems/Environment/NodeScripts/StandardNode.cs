@@ -39,6 +39,7 @@ public class StandardNode : Node
                 break;
 
             case GAIASimulationManager.SimState.GAIAControl:
+                tick++;
                 disperseLifeToNeighbors();
                 break;
 
@@ -168,14 +169,80 @@ public class StandardNode : Node
 
     #region SIMULATION
 
-    override protected void disperseLifeToNeighbors()
+    override protected void updateCurrentLifeLevel(float change)
     {
-        if (lifeDispersalInterval % tick == 0)
+        change = change * (1 - lifeResistance / 100f);
+        currentLifeLevel = change > 0 ? ((currentLifeLevel + change) < 100 ? currentLifeLevel + change : 100) : ((currentLifeLevel - change) > 0 ? currentLifeLevel + change : 0);
+        LifeState newLifeState = currentLifeState;
+        switch (currentLifeState)
         {
-
+            case LifeState.Dead:
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
+                break;
+            case LifeState.Stage1:
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Dead : newLifeState;
+                break;
+            case LifeState.Stage2:
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
+                break;
+            case LifeState.Stage3:
+                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Flourishing : newLifeState;
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
+                break;
+            case LifeState.Flourishing:
+                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
+                break;
+        }
+        if (newLifeState != currentLifeState)
+        {
+            updateCurrentLifeState(newLifeState);
         }
     }
 
+    override protected void updateCurrentLifeState(LifeState newLifeState)
+    {
+        currentLifeState = newLifeState;
+        GameObject newPrefab = null;
+        switch (currentLifeState)
+        {
+            case LifeState.Dead:
+                newPrefab = nodePrefabsData.deadNodePrefab;
+                break;
+            case LifeState.Stage1:
+                newPrefab = nodePrefabsData.stage1NodePrefab;
+                nodePrefabsData.playChangeLifeLevelEffect(transform);
+                break;
+            case LifeState.Stage2:
+                newPrefab = nodePrefabsData.stage2NodePrefab;
+                nodePrefabsData.playChangeLifeLevelEffect(transform);
+                break;
+            case LifeState.Stage3:
+                newPrefab = nodePrefabsData.stage3NodePrefab;
+                nodePrefabsData.playChangeLifeLevelEffect(transform);
+                break;
+            case LifeState.Flourishing:
+                newPrefab = nodePrefabsData.flourishingNodePrfab;
+                nodePrefabsData.playChangeLifeLevelEffect(transform);
+                break;
+        }
+        Destroy(nodeRender);
+        nodeRender = Instantiate(newPrefab, transform.position, transform.rotation);
+        nodeRender.transform.parent = gameObject.transform;
+    }
+
+    override protected void disperseLifeToNeighbors()
+    {
+        float dispersalAmout = (currentLifeDelta * (currentLifeLevel - lifeThreshhold));
+        if (tick % LIFEDISPERSALINTERVAL == 0 && currentLifeLevel > (LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold))
+        {
+            NorthNode.gainLife(dispersalAmout);
+            EastNode.gainLife(dispersalAmout);
+            SouthNode.gainLife(dispersalAmout);
+            WestNode.gainLife(dispersalAmout);
+        }
+    }
 
     #endregion
 }

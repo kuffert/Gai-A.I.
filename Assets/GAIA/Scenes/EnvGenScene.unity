@@ -175,8 +175,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 206083131}
-  m_LocalRotation: {x: -0.17343184, y: 0.0138852475, z: 0.0024490634, w: 0.98474497}
-  m_LocalPosition: {x: -0.2684428, y: -3.7872305, z: -6.7337103}
+  m_LocalRotation: {x: 0.4009545, y: 0.032417603, z: 0.014195553, w: -0.91541415}
+  m_LocalPosition: {x: -21.055183, y: -22.895124, z: -27.896442}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1802,10 +1802,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dullNodeChance: 0.1
   maxFractals: 500
-  maxWaterGenerations: 2
-  maxIndividualWaterFractals: 12
+  maxWaterGenerations: 3
+  maxIndividualWaterFractals: 6
   waterFractalChance: 1
-  waterFractalChanceDecayRate: 0.1
+  waterFractalChanceDecayRate: 0.05
   nodePrefabsData: {fileID: 11400000, guid: 9223a973349c2344589bde9dae8199f1, type: 2}
   initialLifeRes: 10
   intitialLifeThresh: 30

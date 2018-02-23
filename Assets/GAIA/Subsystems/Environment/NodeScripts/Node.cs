@@ -11,7 +11,6 @@ public abstract class Node : MonoBehaviour
     public NodePrefabs nodePrefabsData;
     public float lifeResistance;
     public float lifeThreshhold;
-    public float lifeDispersalInterval;
     public float currentLifeLevel;
     public LifeState currentLifeState = LifeState.Dead;
 
@@ -32,13 +31,14 @@ public abstract class Node : MonoBehaviour
 
     protected static int FRACTALS = 1;
     protected static int MAXFRACTALS;
-    
+    protected static int LIFEDISPERSALINTERVAL;
+
     protected static int WATERFRACTALS = 1;
     protected static int MAXWATERGENERATIONS;
     protected static int MAXINDIVIDUALWATERFRACTALS;
     protected static float WATERFRACTALCHANCE;
     protected static float WATERFRACTALCHANCEDECAYRATE;
-    
+
     protected static List<GameObject> ALLNODEOBJECTS = new List<GameObject> { };
     protected static List<Node> ALLNODESCRIPTS = new List<Node> { };
     protected static int[] LIFESTATEVALUES = new int[] { 0, 10, 25, 65, 75 };
@@ -48,7 +48,7 @@ public abstract class Node : MonoBehaviour
 
 
 
-#region ENVGEN
+    #region ENVGEN
 
     public static bool nodeGenerationCompleted()
     {
@@ -64,7 +64,12 @@ public abstract class Node : MonoBehaviour
     {
         MAXFRACTALS = n;
     }
- 
+
+    protected void setLifeDispersalInterval(int n)
+    {
+        LIFEDISPERSALINTERVAL = n;
+    }
+
     protected void setMaxWaterGenerations(int n)
     {
         MAXWATERGENERATIONS = n;
@@ -174,75 +179,18 @@ public abstract class Node : MonoBehaviour
 
     #endregion
 
-#region SIMULATION
+    #region SIMULATION
+
+    public void gainLife(float amount)
+    {
+        updateCurrentLifeLevel(amount);
+    }
 
     protected abstract void disperseLifeToNeighbors();
 
-    protected void updateCurrentLifeLevel(float change)
-    {
-        change = change * (1 - lifeResistance / 100f);
-        currentLifeLevel = change > 0 ? ((currentLifeLevel + change) < 100 ? currentLifeLevel + change : 100) : ((currentLifeLevel - change) > 0 ? currentLifeLevel + change : 0);
-        LifeState newLifeState = currentLifeState;
-        switch (currentLifeState)
-        {
-            case LifeState.Dead:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
-                break;
-            case LifeState.Stage1:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage1] + lifeThreshhold ? LifeState.Dead : newLifeState;
-                break;
-            case LifeState.Stage2:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage2] + lifeThreshhold ? LifeState.Stage1 : newLifeState;
-                break;
-            case LifeState.Stage3:
-                newLifeState = currentLifeLevel >= LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Flourishing : newLifeState;
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Stage3] + lifeThreshhold ? LifeState.Stage2 : newLifeState;
-                break;
-            case LifeState.Flourishing:
-                newLifeState = currentLifeLevel < LIFESTATEVALUES[(int)LifeState.Flourishing] + lifeThreshhold ? LifeState.Stage3 : newLifeState;
-                break;
-        }
-        if (newLifeState != currentLifeState)
-        {
-            updateCurrentLifeState(newLifeState);
-        }
-    }
+    protected abstract void updateCurrentLifeLevel(float change);
 
-    protected void updateCurrentLifeState(LifeState newLifeState)
-    {
-        currentLifeState = newLifeState;
-        GameObject newPrefab = null;
-        switch (currentLifeState)
-        {
-            case LifeState.Dead:
-                newPrefab = nodePrefabsData.deadNodePrefab;
-                break;
-            case LifeState.Stage1:
-                newPrefab = nodePrefabsData.stage1NodePrefab;
-                nodePrefabsData.playChangeLifeLevelEffect(transform);
-                break;
-            case LifeState.Stage2:
-                newPrefab = nodePrefabsData.stage2NodePrefab;
-                nodePrefabsData.playChangeLifeLevelEffect(transform);
-                break;
-            case LifeState.Stage3:
-                newPrefab = nodePrefabsData.stage3NodePrefab;
-                nodePrefabsData.playChangeLifeLevelEffect(transform);
-                break;
-            case LifeState.Flourishing:
-                newPrefab = nodePrefabsData.flourishingNodePrfab;
-                nodePrefabsData.playChangeLifeLevelEffect(transform);
-                break;
-        }
-        Destroy(nodeRender);
-        nodeRender = Instantiate(newPrefab, transform.position, transform.rotation);
-        nodeRender.transform.parent = gameObject.transform;
-    }
+    protected abstract void updateCurrentLifeState(LifeState newLifeState);
 
-
-
-
-#endregion
+    #endregion
 }
