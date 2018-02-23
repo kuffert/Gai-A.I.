@@ -26,15 +26,13 @@ public class Observer : MonoBehaviour
         loadingBarTextScript = loadingBarText.GetComponent<Text>();
     }
 
-    void Update()
+    void Update()   
     {
         updateUIComponentLocations();
     }
 
     public static void updateLoadingBarActive(bool newState, string newText, Color newColor)
     {
-        Debug.Log(newColor);
-        Debug.Log(loadingBarTextScript.color);
         loadingBarActive = newState;
         loadingBarTextScript.color = newColor;
         loadingBarTextScript.text = newText;

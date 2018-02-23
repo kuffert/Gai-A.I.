@@ -23,6 +23,10 @@ public class BoundaryNode : Node
             case GAIASimulationManager.SimState.EnvGen:
                 findNeighbors();
                 break;
+
+            case GAIASimulationManager.SimState.WaterGen:
+                findNeighbors();
+                break;
         }
     }
 
@@ -40,11 +44,17 @@ public class BoundaryNode : Node
         boundaryNodeScript.lifeThreshhold = 100f;
 
         ALLNODEOBJECTS.Add(newBoundaryNodeObj);
+        ALLNODESCRIPTS.Add(boundaryNodeScript);
         return newBoundaryNodeObj;
     }
 
     override protected void generateNeighbors()
     {
         throw new UnityException("Boundary Nodes do not support generation of neighbor Nodes.");
+    }
+
+    override public void generateWater(int tickInterval, int fractalID)
+    {
+
     }
 }

@@ -25,13 +25,29 @@ public class InceptorNode : Node
             case GAIASimulationManager.SimState.EnvGen:
                 findNeighbors();
                 break;
+
+            case GAIASimulationManager.SimState.WaterGen:
+                findNeighbors();
+                break;
+
             case GAIASimulationManager.SimState.GAIAControl:
                 updateCurrentLifeLevel(currentLifeDelta);
                 break;
         }
     }
 
-    public static GameObject generateInceptorNode(float initialLifeRes, float initialLifeThreshold, int maxFractals, bool validationMode, Vector3 transformPosition, NodePrefabs nodePrefabsData)
+    public static GameObject generateInceptorNode(
+        float initialLifeRes,
+        float initialLifeThreshold,
+        int maxFractals,
+        float dullNodeChance,
+        int maxWaterGenerations,
+        int maxWaterFracals,
+        float waterFractalChance,
+        float waterFractalChanceDecayRate,
+        bool validationMode,
+        Vector3 transformPosition,
+        NodePrefabs nodePrefabsData)
     {
         GameObject newInceptorNodeObj = new GameObject("Inceptor Node");
         newInceptorNodeObj.transform.position = transformPosition;
@@ -42,10 +58,25 @@ public class InceptorNode : Node
         inceptorNodeScript.lifeThreshhold = initialLifeThreshold;
         inceptorNodeScript.nodePrefabsData = nodePrefabsData;
         inceptorNodeScript.setMaxFractals(maxFractals);
+        inceptorNodeScript.setDullNodeChance(dullNodeChance);
+        inceptorNodeScript.setMaxWaterGenerations(maxWaterGenerations);
+        inceptorNodeScript.setMaxWaterFractals(maxWaterFracals);
+        inceptorNodeScript.setWaterFractalChance(waterFractalChance);
+        inceptorNodeScript.setWaterFractalChanceDecayRate(waterFractalChanceDecayRate);
         inceptorNodeScript.setValidationMode(validationMode);
 
         ALLNODEOBJECTS.Add(newInceptorNodeObj);
+        ALLNODESCRIPTS.Add(inceptorNodeScript);
         return newInceptorNodeObj;
+    }
+
+    public static void beginWaterGeneration(int maxWaterGenerations)
+    {
+        for (int generationID = 0; generationID < maxWaterGenerations; generationID++)
+        {
+            Node randomNode = ALLNODESCRIPTS[Random.Range(0, ALLNODESCRIPTS.Count - 1)];
+            randomNode.generateWater(0, 0);
+        }
     }
 
     override protected void generateNeighbors()
@@ -54,6 +85,11 @@ public class InceptorNode : Node
         EastNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.West, transform.position + new Vector3(0, 0, -NODESIZE), nodePrefabsData);
         SouthNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.North, transform.position + new Vector3(-NODESIZE, 0, 0), nodePrefabsData);
         WestNode = StandardNode.generateStandardNode(gameObject, lifeResistance, lifeThreshhold, NodeDirection.East, transform.position + new Vector3(0, 0, NODESIZE), nodePrefabsData);
+    }
+
+    override public void generateWater(int tickInterval, int fractalID)
+    {
+
     }
 
     private void calculateNodeOrderMapping()
@@ -73,4 +109,5 @@ public class InceptorNode : Node
         Soliloquy.envLog("Inceptor time mapping: ");
         Soliloquy.envLog("N:" + nVal[1] + " " + "E:" + eVal[1] + " " + "S:" + sVal[1] + " " + "W:" + wVal[1]);
     }
+
 }

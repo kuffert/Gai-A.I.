@@ -17,6 +17,7 @@ public class NodePrefabs : ScriptableObject
     public GameObject stage2NodePrefab;
     public GameObject stage3NodePrefab;
     public GameObject flourishingNodePrfab;
+    public GameObject waterNodePrefab;
 
 // Particle effect prefabs
     public GameObject changeLifeLevelEffectPrefab;

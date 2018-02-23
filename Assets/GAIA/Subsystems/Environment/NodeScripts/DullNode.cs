@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DullNode : Node {
+public class DullNode : Node
+{
 
-void Start()
+    void Start()
     {
         GameObject dullNodePrefab = nodePrefabsData.getRandomDullNode();
         nodeRender = Instantiate(dullNodePrefab, transform.position, transform.rotation);
@@ -21,6 +22,10 @@ void Start()
         switch (GAIASimulationManager.getSimState())
         {
             case GAIASimulationManager.SimState.EnvGen:
+                findNeighbors();
+                break;
+
+            case GAIASimulationManager.SimState.WaterGen:
                 findNeighbors();
                 break;
         }
@@ -40,11 +45,17 @@ void Start()
         dullNodeScript.lifeThreshhold = 100f;
 
         ALLNODEOBJECTS.Add(newDullNodeObject);
+         ALLNODESCRIPTS.Add(dullNodeScript);
         return newDullNodeObject;
     }
 
     override protected void generateNeighbors()
     {
         throw new UnityException("Boundary Nodes do not support generation of neighbor Nodes.");
+    }
+
+    override public void generateWater(int tickInterval, int fractalID)
+    {
+
     }
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2c536a83268e12440a881e1a14dd9857
-timeCreated: 1517771449
+timeCreated: 1519337808
 licenseType: Free
 MonoImporter:
   externalObjects: {}
@@ -27,6 +27,8 @@ MonoImporter:
   - stage3NodePrefab: {fileID: 1112958284437122, guid: 82ce4264edc9014499752afe3d3ee139,
       type: 2}
   - flourishingNodePrfab: {fileID: 1043350906885274, guid: 3ed5cfd70eb0ad6429e711e14c06ed2a,
+      type: 2}
+  - waterNodePrefab: {fileID: 1452180499803688, guid: 8078bfd2d3419f54fb442f288cf6c21f,
       type: 2}
   - changeLifeLevelEffectPrefab: {fileID: 100000, guid: 12fc78131a3c50d419d4ffc7cf0ab34d,
       type: 2}

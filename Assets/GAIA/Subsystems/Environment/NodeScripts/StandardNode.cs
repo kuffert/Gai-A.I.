@@ -33,9 +33,13 @@ public class StandardNode : Node
                 generateNeighbors();
                 break;
 
+            case GAIASimulationManager.SimState.WaterGen:
+                findNeighbors();
+                break;
+
             case GAIASimulationManager.SimState.GAIAControl:
-                 updateCurrentLifeLevel(currentLifeDelta);
-                 break;
+                updateCurrentLifeLevel(currentLifeDelta);
+                break;
 
             case GAIASimulationManager.SimState.Override:
                 break;
@@ -45,7 +49,7 @@ public class StandardNode : Node
 
     public static GameObject generateStandardNode(GameObject prevNode, float prevNodeLifeRes, float prevNodeLifeThresh, NodeDirection prevNodeDir, Vector3 transformPosition, NodePrefabs nodePrefabsData)
     {
-        if (Random.Range(1, 7) == 1)
+        if (Random.Range(1, 100) / 100f <= DULLNODECHANCE)
         {
             return DullNode.generateDullNode(prevNode, prevNodeDir, transformPosition, nodePrefabsData);
         }
@@ -61,6 +65,7 @@ public class StandardNode : Node
         standardNodeScript.prevNodeDir = prevNodeDir;
 
         ALLNODEOBJECTS.Add(newStandardNodeObj);
+        ALLNODESCRIPTS.Add(standardNodeScript);
         return newStandardNodeObj;
     }
 
@@ -123,19 +128,25 @@ public class StandardNode : Node
         }
     }
 
+    override public void generateWater(int tickInterval, int fractalID)
+    {
+        WaterNode.generateWaterNode(prevNode, prevNodeDir, NorthNode, EastNode, SouthNode, WestNode, fractalID, gameObject.transform.position, nodePrefabsData);
+        Destroy(gameObject);
+    }
+
     private float generatePsuedoRandomLifeRes(float prevLR)
     {
         float rangeMod = prevLR * 1.0f;
-        float loVal = (prevLR - rangeMod) > 0? prevLR - rangeMod : 0; 
-        float hiVal = (prevLR + rangeMod) < 95? prevLR + rangeMod : 95; 
+        float loVal = (prevLR - rangeMod) > 0 ? prevLR - rangeMod : 0;
+        float hiVal = (prevLR + rangeMod) < 95 ? prevLR + rangeMod : 95;
         return Random.Range(loVal, hiVal);
     }
 
     private float generatePsuedoRandomLifeThresh(float prevLT)
     {
         float rangeMod = prevLT * .5f;
-        float loVal = (prevLT - rangeMod) > 15? prevLT - rangeMod : 15; 
-        float hiVal = (prevLT + rangeMod) < 85? prevLT + rangeMod : 85; 
+        float loVal = (prevLT - rangeMod) > 15 ? prevLT - rangeMod : 15;
+        float hiVal = (prevLT + rangeMod) < 85 ? prevLT + rangeMod : 85;
         return Random.Range(loVal, hiVal);
     }
 
@@ -148,4 +159,5 @@ public class StandardNode : Node
             nodeRender.transform.parent = gameObject.transform;
         }
     }
+
 }
