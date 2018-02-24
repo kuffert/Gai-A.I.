@@ -58,6 +58,7 @@ public class InceptorNode : Node
 
         InceptorNode inceptorNodeScript = newInceptorNodeObj.AddComponent<InceptorNode>();
         inceptorNodeScript.incrementTotalNodes();
+        inceptorNodeScript.nodeName = "Inceptor Node";
         inceptorNodeScript.lifeResistance = initialLifeRes;
         inceptorNodeScript.lifeThreshhold = initialLifeThreshold;
         inceptorNodeScript.setLifeDispersalInterval(lifeDispersalInterval);

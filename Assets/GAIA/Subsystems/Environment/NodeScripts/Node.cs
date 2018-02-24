@@ -8,6 +8,7 @@ public abstract class Node : MonoBehaviour
     public enum LifeState { Dead, Stage1, Stage2, Stage3, Flourishing }
 
     protected static bool VALIDATIONMODE = false;
+    public string nodeName;
     public NodePrefabs nodePrefabsData;
     public float lifeResistance;
     public float lifeThreshhold;
@@ -121,8 +122,7 @@ public abstract class Node : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log(gameObject);
-            Debug.Log(currentLifeLevel);
+            Observer.updateNodeInfo(nodeName, lifeResistance, lifeThreshhold, currentLifeLevel);
         }
     }
 

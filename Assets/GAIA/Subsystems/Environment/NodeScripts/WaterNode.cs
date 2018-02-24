@@ -49,11 +49,12 @@ public class WaterNode : Node
         Vector3 transformPosition,
         NodePrefabs nodePrefabsData)
     {
-        GameObject newWaterNodeObj = new GameObject("WaterNode" + TOTALNODES + " Fractal# " + FRACTALS);
+        GameObject newWaterNodeObj = new GameObject("WaterNode" + WATERFRACTALS + " Fractal# " + fractalID);
         newWaterNodeObj.transform.position = transformPosition;
 
         WaterNode waterNodeScript = newWaterNodeObj.AddComponent<WaterNode>();
         waterNodeScript.nodePrefabsData = nodePrefabsData;
+        waterNodeScript.nodeName = "WaterNode" + WATERFRACTALS + " Fractal# " + fractalID;
         waterNodeScript.prevNode = prevNode;
         waterNodeScript.prevNodeDir = prevNodeDir;
         waterNodeScript.fractalID = fractalID;

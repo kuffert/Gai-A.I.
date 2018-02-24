@@ -16,6 +16,16 @@ public class Observer : MonoBehaviour
     private float xLoc;
     private float yLoc;
 
+    public GameObject nodeInfo;
+    public GameObject nodeInfoText;
+    public GameObject nodeInfoLifeRes;
+    public GameObject nodeInfoLifeThresh;
+    public GameObject nodeInfoCurLife;
+    public static Text nodeInfoTextScript;
+    public static Text nodeInfoLifeResScript;
+    public static Text nodeInfoLifeThreshScript;
+    public static Text nodeInfoCurLifeScript;
+
     void Start()
     {
         xLoc = loadingBar.GetComponent<RectTransform>().anchoredPosition.x;
@@ -24,9 +34,13 @@ public class Observer : MonoBehaviour
         limit = xLoc + 272;
         curDis = 0;
         loadingBarTextScript = loadingBarText.GetComponent<Text>();
+        nodeInfoTextScript = nodeInfoText.GetComponent<Text>();
+        nodeInfoLifeResScript = nodeInfoLifeRes.GetComponent<Text>();
+        nodeInfoLifeThreshScript = nodeInfoLifeThresh.GetComponent<Text>();
+        nodeInfoCurLifeScript = nodeInfoCurLife.GetComponent<Text>();
     }
 
-    void Update()   
+    void Update()
     {
         updateUIComponentLocations();
     }
@@ -36,6 +50,14 @@ public class Observer : MonoBehaviour
         loadingBarActive = newState;
         loadingBarTextScript.color = newColor;
         loadingBarTextScript.text = newText;
+    }
+
+    public static void updateNodeInfo(string newNodeName, float newLifeRes, float newLifeThresh, float newCurLife)
+    {
+        nodeInfoTextScript.text = newNodeName;
+        nodeInfoLifeResScript.text = "Life Resistance: " + newLifeRes.ToString();
+        nodeInfoLifeThreshScript.text = "Life Threshold: " + newLifeThresh.ToString();
+        nodeInfoCurLifeScript.text = "Current Life Level: " +  newCurLife.ToString();
     }
 
     private void updateUIComponentLocations()

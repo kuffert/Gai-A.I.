@@ -62,6 +62,7 @@ public class StandardNode : Node
 
         StandardNode standardNodeScript = newStandardNodeObj.AddComponent<StandardNode>();
         standardNodeScript.incrementTotalNodes();
+        standardNodeScript.nodeName = "StandardNode" + TOTALNODES + " Fractal# " + FRACTALS;
         standardNodeScript.lifeResistance = standardNodeScript.generatePsuedoRandomLifeRes(prevNodeLifeRes);
         standardNodeScript.lifeThreshhold = standardNodeScript.generatePsuedoRandomLifeThresh(prevNodeLifeThresh);
         standardNodeScript.nodePrefabsData = nodePrefabsData;

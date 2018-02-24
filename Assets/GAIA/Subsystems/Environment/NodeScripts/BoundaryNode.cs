@@ -38,6 +38,7 @@ public class BoundaryNode : Node
 
         BoundaryNode boundaryNodeScript = newBoundaryNodeObj.AddComponent<BoundaryNode>();
         boundaryNodeScript.nodePrefabsData = nodePrefabsData;
+        boundaryNodeScript.nodeName = "Boundary Node";
         boundaryNodeScript.prevNode = prevNode;
         boundaryNodeScript.prevNodeDir = prevNodeDir;
         boundaryNodeScript.lifeResistance = 100f;
